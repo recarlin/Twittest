@@ -1,15 +1,17 @@
 package TweetBuilder;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import android.content.Context;
 import android.util.Log;
 
 public class FileSystemActions {
-	
+	//Saves the zip code as a file.
+	@SuppressWarnings("resource")
 	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
 		try{
 			File file;
@@ -27,24 +29,35 @@ public class FileSystemActions {
 		}
 		return true;
 	}
-	
-	public static Boolean storeObject(Context context, String filename, String content, Boolean external) {
+	//Reads the local zip file.
+	@SuppressWarnings("resource")
+	public static String readFile(Context context, String filename, Boolean external) {
+		String zip = "";
 		try{
 			File file;
-			FileOutputStream fileOutput;
-			ObjectOutputStream objectOutput;
+			FileInputStream fileInput;
 			if(external) {
 				file = new File(context.getExternalFilesDir(null), filename);
-				fileOutput = new FileOutputStream(file);
+				fileInput = new FileInputStream(file);
 			} else {
-				fileOutput = context.openFileOutput(filename, Context.MODE_PRIVATE);
+				file = new File(filename);
+				fileInput = context.openFileInput(filename);
 			}
-			objectOutput = new ObjectOutputStream(fileOutput);
-			objectOutput.writeObject(content);
-			fileOutput.close();
+			BufferedInputStream bis = new BufferedInputStream(fileInput);
+			byte[] contentBytes = new byte[1024];
+			int readBytes = 0;
+			StringBuffer buff = new StringBuffer();
+			while((readBytes = bis.read(contentBytes)) != -1) {
+				zip = new String(contentBytes, 0, readBytes);
+				buff.append(zip);
+			}
+			zip = buff.toString();
+			fileInput.close();
+		} catch(FileNotFoundException e) {
+			Log.e("READ", "File not found: " + filename);
 		} catch(IOException e) {
-			Log.e("WRITE", filename);
+			Log.e("READ", "I/O Error: ");
 		}
-		return true;
+		return zip;
 	}
 }

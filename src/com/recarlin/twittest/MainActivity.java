@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import TweetBuilder.AddNReadTweets;
+import TweetBuilder.FileSystemActions;
 import TweetBuilder.SendRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Checks to see if there is a stored zip code on the file system. If so, it loads the info for that zip code.
+		try{
+			String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
+			getTimelineURL(myZip);
+		} catch(Exception e) {
+			Log.e("STORED ZIP", "There is no stored zip!");
+		}
 		//Sets the linear layout up.
 		lay = new LinearLayout(this);
 		lay.setOrientation(LinearLayout.VERTICAL);
@@ -62,6 +70,7 @@ public class MainActivity extends Activity {
 				if(connected) {
 					String username = tweetEntry.getText().toString();
 					getTimelineURL(username);
+					FileSystemActions.storeFile(MainActivity.this, "zip", tweetEntry.getText().toString(), false);
 				} else {
 					Log.i("CONNECTION", "You are not connected to the Internet!");
 				}
