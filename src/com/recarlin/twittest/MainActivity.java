@@ -44,7 +44,9 @@ public class MainActivity extends Activity {
 		//Checks to see if there is a stored zip code on the file system. If so, it loads the info for that zip code.
 		try{
 			String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
-			getTimelineURL(myZip);
+			if (myZip != null) {
+				getTimelineURL(myZip);
+			}
 		} catch(Exception e) {
 			Log.e("STORED ZIP", "There is no stored zip!");
 		}
@@ -132,6 +134,7 @@ public class MainActivity extends Activity {
 				JSONArray results = resultJSON.getJSONObject("forecast").getJSONObject("txt_forecast").getJSONArray("forecastday");
 				String post = AddNReadTweets.ReadDefaults(results);
 				TextView resultsTextView = AddNReadTweets.NewTweetView(post, MainActivity.this);
+				scroll.removeAllViews();
 				scroll.addView(resultsTextView);
 			} catch(JSONException e) {
 				Log.e("JSON ERROR", "Your JSON is incorrect!");

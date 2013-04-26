@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -13,6 +14,12 @@ public class FileSystemActions {
 	//Saves the zip code as a file.
 	@SuppressWarnings("resource")
 	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
+		try{
+			File file = new File("zip");
+			file.delete();
+		} catch(Exception e) {
+			Log.e("FILE", "No zip file, continue with file creation!");
+		}
 		try{
 			File file;
 			FileOutputStream outputStream;
