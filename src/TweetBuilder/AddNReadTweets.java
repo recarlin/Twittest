@@ -6,40 +6,32 @@
  */
 package TweetBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.Context;
+import android.util.Log;
 import android.widget.TextView;
 
 public class AddNReadTweets {
-	public static JSONObject NewTweet(String name, String date, String text) {
-		JSONObject newTweet = new JSONObject();
-		try {
-			newTweet.put("name", name);
-			newTweet.put("date", date);
-			newTweet.put("text", text);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return newTweet;
-	};
-	
-	
-	public static String ReadNewTweet(JSONObject object) {
+	//This reads the response from the site, goes through the JSONArray, picks out what info I want, and builds a String.
+	public static String ReadDefaults(JSONArray results) {
 		String post = new String();
 		try {
-			String name, date, text;
-		    name = object.getString("name");
-		    date = object.getString("date");
-		    text = object.getString("text");
-			post = "\r\n" + name + " - " + date + "\r\n" + text;
+			for(int i = 0; i < results.length(); i++){
+				String title, forcast, precipitation;
+				JSONObject currentPeriod = results.getJSONObject(i);
+				title = currentPeriod.getString("title");
+			    forcast = currentPeriod.getString("fcttext");
+			    precipitation = currentPeriod.getString("pop");
+				post = post + title + " - " + precipitation + "% Chance of Precipitation\r\n" + forcast + "\r\n\r\n";
+			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e("READJSON", "Error Reading JSON!");
 		}
 		return post;
 	}
-	
-	//This is used to generate a new TextView for each Tweet. It takes a String, makes it the text of a TextView, and returns the TextView.
+	//This generates a new TextView for a String.
 	public static TextView NewTweetView(String post, Context context) {
 		TextView tweetView = new TextView(context);
 		tweetView.setText(post);
