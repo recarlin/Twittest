@@ -24,6 +24,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class ForecastOperations {
 			    imageV.setMinimumHeight(100);
 			    
 			    textV.setTextAppearance(context, R.style.Forecast);
+			    textV.setWidth(1000);
 			    
 			    post.add(imageV);
 				post.add(textV);
