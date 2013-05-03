@@ -1,4 +1,10 @@
-package TweetBuilder;
+/*
+ * project		WiswWeather
+ * package		TweetBuilder
+ * author		Russell Carlin
+ * date			May 1, 2013
+ */
+package forcastBuilder;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -12,12 +18,12 @@ import android.util.Log;
 public class SendRequest {
 
 	static Boolean connected = false;
-	//Runs the check for Internet connectivity.
+//Runs the check for Internet connectivity.
 	public static Boolean getConnected(Context context) {
 		connectionInfo(context);
 		return connected;
 	}
-	//Checks to see if you are connected to the Internet.
+//Checks to see if you are connected to the Internet.
 	public static void connectionInfo(Context context) {
 		ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = manager.getActiveNetworkInfo();
@@ -27,7 +33,7 @@ public class SendRequest {
 			}
 		}
 	}
-	//Gets the response from the site, building a string that is JSON data.
+//Gets the response from the site, building a string that is JSON data.
 	public static String getResponse(URL url) {
 		String response = "";
 		try{

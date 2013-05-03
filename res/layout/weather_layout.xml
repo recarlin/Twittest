@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:text="WiseWeather Forecast"
+        style="@style/Title"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+        
+        <EditText
+            android:id="@+id/zipText"
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:inputType="number"
+	        android:hint="Enter Zip Code"/>
+        
+        <Button 
+            android:id="@+id/forcastButton"
+            android:layout_width="wrap_content"
+           	android:layout_height="wrap_content"
+           	android:text="Get Forcast"/>
+        <Button 
+            android:id="@+id/savedButton"
+            android:layout_width="wrap_content"
+           	android:layout_height="wrap_content"
+           	android:text="Get Saved Zip"/>
+    </LinearLayout>
+    
+    <ScrollView 
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent">
+        
+        <GridLayout
+            android:id="@+id/forecastGrid"
+            android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:padding="5dp"
+    		android:columnCount="2"
+    		android:clipChildren="true">
+        </GridLayout>
+            
+        
+    </ScrollView>
+
+</LinearLayout>
