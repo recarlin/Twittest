@@ -94,7 +94,6 @@ public class ForecastOperations {
 				} catch (IOException e) {
 					Log.e("IOException", "ERMAGERD");
 				}
-				
 			}
 			return response;
 		}

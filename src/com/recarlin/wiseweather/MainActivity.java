@@ -37,14 +37,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MainActivity.context = getApplicationContext();
-//		try{
-//			String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
-//			if (myZip != null) {
-//				getForcastURL(myZip);
-//			}
-//		} catch(Exception e) {
-//			Log.e("STORED ZIP", "There is no stored zip!");
-//		}
 		setContentView(R.layout.weather_layout);
 //Button that will send the request, as long as you are connected to the Internet. If you aren't, you get an error.
 		Button getForcast = (Button) findViewById(R.id.forcastButton);
