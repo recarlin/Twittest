@@ -20,17 +20,16 @@ import com.recarlin.wiseweather.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ForecastOperations {
 	
-	public static Bitmap myBitmap;
+	public static Drawable myBitmap;
 	
 	public static Context context = MainActivity.getAppContext();
 //This reads the response from the site, goes through the JSONArray, picks out what info I want,
@@ -49,14 +48,13 @@ public class ForecastOperations {
 			    ForecastOperations.getImage gi = new ForecastOperations.getImage();
 			    gi.execute(iconURL);
 			    
-			    imageV.setImageBitmap(myBitmap);
+			    imageV.setImageDrawable(myBitmap);
 			    TextView textV = newTextView((title + " - " + precipitation + "% Chance of Precipitation\r\n" + forcast + "\r\n"), context);
 			    
 			    imageV.setMinimumWidth(100);
 			    imageV.setMinimumHeight(100);
 			    
 			    textV.setTextAppearance(context, R.style.Forecast);
-			    textV.setWidth(1000);
 			    
 			    post.add(imageV);
 				post.add(textV);
@@ -79,10 +77,10 @@ public class ForecastOperations {
 		return textView;
 	}
 //This is used to get the images from the site in as a AsyncTask, because you can't do these calls on the main thread.
-	private static class getImage extends AsyncTask<String, Void, Bitmap>{
+	private static class getImage extends AsyncTask<String, Void, Drawable>{
 		@Override
-		protected Bitmap doInBackground(String...strings) {
-			Bitmap response = null;
+		protected Drawable doInBackground(String...strings) {
+			Drawable response = null;
 			for (String string: strings) {
 				try {
 					URL url = new URL(string);
@@ -90,7 +88,7 @@ public class ForecastOperations {
 		            connection.setDoInput(true);
 		            connection.connect();
 		            InputStream input = connection.getInputStream();
-		            response = BitmapFactory.decodeStream(input);
+		            response = Drawable.createFromStream(input, "src");
 				} catch (IOException e) {
 					Log.e("IOException", "ERMAGERD");
 				}
@@ -98,7 +96,7 @@ public class ForecastOperations {
 			return response;
 		}
 		@Override
-		protected void onPostExecute(Bitmap result) {
+		protected void onPostExecute(Drawable result) {
 			myBitmap = result;
 		}
 	}
