@@ -27,7 +27,8 @@ public class ForecastView extends Activity {
 	String permZip;
 	Boolean doSave = false;
 	Boolean loaded = false;
-	
+//Sets the layout up and the button listeners. Clicking back will finish the activity, save will finish and send an intent for the zip,
+//and JSON will send an intent to open the browser to view JSON.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,8 @@ public class ForecastView extends Activity {
     		}
     	});
     }
+//Fixes the bug with going from the browser back to the forecast view. Usually it will add a bunch of junk in there but this checks if it is already loaded.
+//If it is loaded, then it does nothing. If it isn't it will load the forecast and set the boolean to true.
     @Override
     protected void onStart() {
         super.onStart();
@@ -88,6 +91,8 @@ public class ForecastView extends Activity {
   			}
   			return response;
   		}
+//This is where the magic happens. This takes JSON results, breaks it down the views into an imageview array and a textview array.
+//From there it will add the views to the appropriate linearlayouts already placed in the layout xml.
   		@Override
   		protected void onPostExecute(String result) {
   			try {
@@ -120,6 +125,7 @@ public class ForecastView extends Activity {
   			}
   		}
   	}
+//This makes an intent to send back to the main activity. It is used to save the zip, if selected.
   	@Override
   	public void finish() {
   	    Intent data = new Intent();

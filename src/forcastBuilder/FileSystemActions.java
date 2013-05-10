@@ -17,7 +17,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class FileSystemActions {
-	//Saves the zip code as a file.
+//Saves the zip code as a file.
 	@SuppressWarnings("resource")
 	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
 		try{
@@ -42,7 +42,7 @@ public class FileSystemActions {
 		}
 		return true;
 	}
-	//Reads the local zip file.
+//Reads the local zip file.
 	@SuppressWarnings("resource")
 	public static String readFile(Context context, String filename, Boolean external) {
 		String zip = "";

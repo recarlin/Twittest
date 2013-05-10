@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		MainActivity._context = getApplicationContext();
 		setContentView(R.layout.weather_layout);
-//Button that will send the request, as long as you are connected to the Internet. If you aren't, you get an error.
+//Button that will send the request, as long as you are connected to the Internet.
 		Button getForcast = (Button) findViewById(R.id.forcastButton);
 		getForcast.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -77,7 +77,8 @@ public class MainActivity extends Activity {
 	public static Context getAppContext() {
         return MainActivity._context;
     }
-
+//This is the result of the closing the forecast view and getting the intent data.
+//It will save the zip to the filesystem if you pressed to do so, or it will just return to the main screen.
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent newData) {
 		if (resultCode == RESULT_OK && requestCode == 0) {
