@@ -17,45 +17,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ForecastView extends Activity {
+public class ForecastView extends Activity implements ForecastFragment.checker{
 	
 	String permZip;
 	Boolean doSave = false;
 	Boolean loaded = false;
+	
 //Sets the layout up and the button listeners. Clicking back will finish the activity, save will finish and send an intent for the zip,
 //and JSON will send an intent to open the browser to view JSON.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forecast_layout);
-        Button back = (Button) findViewById(R.id.back);
-    	back.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			finish();
-    		}
-    	});
-    	Button saveZip = (Button) findViewById(R.id.saveZip);
-    	saveZip.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			doSave = true;
-    			finish();
-    		}
-    	});
-    	Button JSONSource = (Button) findViewById(R.id.JSONSource);
-    	JSONSource.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			Intent internetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + permZip + ".json"));
-    			startActivity(internetIntent);
-    		}
-    	});
     }
 //Fixes the bug with going from the browser back to the forecast view. Usually it will add a bunch of junk in there but this checks if it is already loaded.
 //If it is loaded, then it does nothing. If it isn't it will load the forecast and set the boolean to true.
@@ -134,4 +111,23 @@ public class ForecastView extends Activity {
   	    setResult(RESULT_OK, data);
   	    super.finish();
   	}
+  	
+	@Override
+	public void onBack() {
+		finish();
+	}
+	
+	@Override
+	public void onSaveHome() {
+		doSave = true;
+		finish();
+	}
+	
+	@Override
+	public void onViewJSON() {
+		Intent internetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + permZip + ".json"));
+		startActivity(internetIntent);
+	}
+  	
+	
 }

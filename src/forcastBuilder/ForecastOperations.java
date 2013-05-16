@@ -49,7 +49,7 @@ public class ForecastOperations {
 			    gi.execute(iconURL);
 			    
 			    imageV.setImageDrawable(myBitmap);
-			    TextView textV = newTextView((title + " - " + precipitation + "% Chance of Precipitation\r\n" + forcast + "\r\n"), context);
+			    TextView textV = newTextView((title + " - " + precipitation + "% Precipitation\r\n" + forcast + "\r\n"), context);
 			    
 			    imageV.setMinimumWidth(100);
 			    imageV.setMinimumHeight(100);

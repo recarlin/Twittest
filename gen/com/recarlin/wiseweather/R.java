@@ -33,10 +33,9 @@ public final class R {
         public static final int _5=0x7f080009;
         public static final int _6=0x7f08000a;
         public static final int _7=0x7f08000b;
-        public static final int action_settings=0x7f080011;
+        public static final int action_settings=0x7f080010;
         public static final int back=0x7f080001;
         public static final int forcastButton=0x7f08000e;
-        public static final int forecastGrid=0x7f080010;
         public static final int imagePLZ=0x7f080000;
         public static final int saveZip=0x7f080002;
         public static final int savedButton=0x7f08000f;

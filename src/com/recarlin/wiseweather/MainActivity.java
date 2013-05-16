@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 
 public class MainActivity extends Activity implements WeatherFragment.checker{
 	
@@ -49,7 +48,6 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 		getSaved.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((GridLayout)findViewById(R.id.forecastGrid)).removeAllViews();
 				connected = SendRequest.getConnected(MainActivity.this);
 				if(connected) {
 					try{
@@ -106,8 +104,6 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 	
 	@Override
 	public void onHomeGet() {
-	
-		((GridLayout)findViewById(R.id.forecastGrid)).removeAllViews();
 		connected = SendRequest.getConnected(MainActivity.this);
 		if(connected) {
 			try{
@@ -123,11 +119,5 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 		} else {
 			Log.i("CONNECTION", "You are not connected to the Internet!");
 		}
-	}
-
-	@Override
-	public void onSaveHome() {
-		// TODO Auto-generated method stub
-		
 	}
 }

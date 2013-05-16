@@ -17,7 +17,6 @@ public class WeatherFragment extends Fragment {
 	public interface checker {
 		public void onForecastGet();
 		public void onHomeGet();
-		public void onSaveHome();
 	}
 
 	@Override
