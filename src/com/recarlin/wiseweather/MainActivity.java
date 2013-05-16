@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ForecastViewFragment.checker {
 	
 	private static Context _context;
 	Boolean connected = false;
@@ -28,7 +28,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MainActivity._context = getApplicationContext();
-		setContentView(R.layout.weather_layout);
+		setContentView(R.layout.forecase_layout_fragment);
+		
 //Button that will send the request, as long as you are connected to the Internet.
 		Button getForcast = (Button) findViewById(R.id.forcastButton);
 		getForcast.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,7 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
+	
 //Inflate the menu; this adds items to the action bar if it is present.
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,4 +92,42 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
+@Override
+public void onForecastGet() {
+	connected = SendRequest.getConnected(MainActivity.this);
+	if(connected) {
+		String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
+		Intent forecastView = new Intent(_context, ForecastView.class);
+		forecastView.putExtra("zip", typedZip);
+		startActivityForResult(forecastView, 0);
+	}
+}
+
+@Override
+public void onHomeGet() {
+
+	((GridLayout)findViewById(R.id.forecastGrid)).removeAllViews();
+	connected = SendRequest.getConnected(MainActivity.this);
+	if(connected) {
+		try{
+			String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
+			if (myZip != null) {
+				Intent forecastView = new Intent(_context, ForecastView.class);
+				forecastView.putExtra("zip", myZip);
+				startActivityForResult(forecastView, 0);
+			}
+		} catch(Exception e) {
+			Log.e("STORED ZIP", "There is no stored zip!");
+		}
+	} else {
+		Log.i("CONNECTION", "You are not connected to the Internet!");
+	}
+}
+
+@Override
+public void onSaveHome() {
+	// TODO Auto-generated method stub
+	
+}
 }
