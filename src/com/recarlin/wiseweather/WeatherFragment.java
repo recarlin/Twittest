@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class ForecastViewFragment extends Fragment {
+public class WeatherFragment extends Fragment {
 	
 	Boolean connected = false;
 	private checker check;
@@ -19,22 +19,11 @@ public class ForecastViewFragment extends Fragment {
 		public void onHomeGet();
 		public void onSaveHome();
 	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		
-		try {
-			check = (checker) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + "IMPLEMENT CHECKER");
-		}
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.forecast_layout, container, false);
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.weather_layout, container, false);
 //Button that will send the request, as long as you are connected to the Internet.
 		Button getForcast = (Button) view.findViewById(R.id.forcastButton);
 		getForcast.setOnClickListener(new View.OnClickListener() {
@@ -52,5 +41,16 @@ public class ForecastViewFragment extends Fragment {
 			}
 		});
 		return view;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		try {
+			check = (checker) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + "IMPLEMENT CHECKER");
+		}
 	}
 }
