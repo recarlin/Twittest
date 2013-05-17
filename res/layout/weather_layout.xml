@@ -14,7 +14,8 @@
 		android:id="@+id/zipText"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:inputType="numberPassword"
+	    android:inputType="numberDecimal"
+	    android:digits="1234567890"
 	    android:hint="Enter Zip Code"/>
     
     <LinearLayout 

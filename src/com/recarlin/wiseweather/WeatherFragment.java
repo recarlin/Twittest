@@ -10,15 +10,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class WeatherFragment extends Fragment {
-	
 	Boolean connected = false;
 	private checker check;
-	
+//Interface used to perform actions from any activity.
 	public interface checker {
 		public void onForecastGet();
 		public void onHomeGet();
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -41,11 +39,10 @@ public class WeatherFragment extends Fragment {
 		});
 		return view;
 	}
-	
+//Checks to see if the activity calling the fragment has the correct implementation to use it.
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
 		try {
 			check = (checker) activity;
 		} catch (ClassCastException e) {

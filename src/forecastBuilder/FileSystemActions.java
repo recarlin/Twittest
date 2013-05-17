@@ -1,10 +1,10 @@
 /*
  * project		WiswWeather
- * package		TweetBuilder
+ * package		forecastBuilder
  * author		Russell Carlin
  * date			May 1, 2013
  */
-package forcastBuilder;
+package forecastBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.File;

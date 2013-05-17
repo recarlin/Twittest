@@ -8,8 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import forcastBuilder.ForecastOperations;
-import forcastBuilder.SendRequest;
+import forecastBuilder.ForecastOperations;
+import forecastBuilder.SendRequest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,20 +22,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ForecastView extends Activity implements ForecastFragment.checker{
-	
 	String permZip;
 	Boolean doSave = false;
 	Boolean loaded = false;
-	
-//Sets the layout up and the button listeners. Clicking back will finish the activity, save will finish and send an intent for the zip,
-//and JSON will send an intent to open the browser to view JSON.
+//Here we set the ContentView to the fragment.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.forecast_layout);
+        setContentView(R.layout.forecase_fragment);
     }
-//Fixes the bug with going from the browser back to the forecast view. Usually it will add a bunch of junk in there but this checks if it is already loaded.
-//If it is loaded, then it does nothing. If it isn't it will load the forecast and set the boolean to true.
+//Checks if information is already loaded onto the screen. If it isn't, it will go ahead and do so.
     @Override
     protected void onStart() {
         super.onStart();
@@ -68,16 +64,18 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   			}
   			return response;
   		}
-//This is where the magic happens. This takes JSON results, breaks it down the views into an imageview array and a textview array.
-//From there it will add the views to the appropriate linearlayouts already placed in the layout xml.
+//This is where the magic happens. This takes JSON results and turns it into how I want it to look.
   		@Override
   		protected void onPostExecute(String result) {
+//First, we get to where the information we want is.
   			try {
   				JSONObject resultJSON = new JSONObject(result);
   				JSONArray results = resultJSON.getJSONObject("forecast").getJSONObject("txt_forecast").getJSONArray("forecastday");
   				ArrayList<View> resultArray = ForecastOperations.readForcastJSON(results);
   				ArrayList<ImageView> imageArray = new ArrayList<ImageView>();
   				ArrayList<TextView> textArray = new ArrayList<TextView>();
+//Next, we take even numbered views, which are ImageViews, and put them into an ArrayList.
+//The same is done to odd numbered views, which are placed into their own TextView ArrayList.
   				for (int i = 0; i < resultArray.size(); i++) {
   					if ((i % 2) == 0) {
   						imageArray.add((ImageView)resultArray.get(i));
@@ -85,6 +83,8 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   						textArray.add((TextView)resultArray.get(i));
   					}
   				}
+//Lastly, we take those two ArrayLists, one of ImageViews and one of TextViews, and iterate through them.
+//Each one is placed into separate LinearLayouts, based on i, that have already been set up.
   				for (int i = 0; i < imageArray.size(); i++) {
   					String idString = "_" + i;
   					int idInt = getResources().getIdentifier(idString, "id", getPackageName());
@@ -111,23 +111,21 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   	    setResult(RESULT_OK, data);
   	    super.finish();
   	}
-  	
+//Closes the activity when the Back button is clicked.
 	@Override
 	public void onBack() {
 		finish();
 	}
-	
+//Marks the zip to be saved as the new home zip and closes the activity when the Save button is clicked.
 	@Override
 	public void onSaveHome() {
 		doSave = true;
 		finish();
 	}
-	
+//Launches an implicit intent to open the raw JSON data in the browser.
 	@Override
 	public void onViewJSON() {
 		Intent internetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + permZip + ".json"));
 		startActivity(internetIntent);
 	}
-  	
-	
 }

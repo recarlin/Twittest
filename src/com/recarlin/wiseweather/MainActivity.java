@@ -6,67 +6,32 @@
  */
 package com.recarlin.wiseweather;
 
-import forcastBuilder.FileSystemActions;
-import forcastBuilder.SendRequest;
+import forecastBuilder.FileSystemActions;
+import forecastBuilder.SendRequest;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 public class MainActivity extends Activity implements WeatherFragment.checker{
-	
 	private static Context _context;
 	Boolean connected = false;
-	
+//Sets the layout fragment and also sets the _context up for use.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
 		setContentView(R.layout.weather_fragment);
-		
-//Button that will send the request, as long as you are connected to the Internet.
-		Button getForcast = (Button) findViewById(R.id.forcastButton);
-		getForcast.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connected = SendRequest.getConnected(MainActivity.this);
-				if(connected) {
-					String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
-					Intent forecastView = new Intent(_context, ForecastView.class);
-					forecastView.putExtra("zip", typedZip);
-					startActivityForResult(forecastView, 0);
-				}
-			}
-		});
-//Checks to see if there is a stored zip code on the file system. If so, it loads the info for that zip code.
-		Button getSaved = (Button) findViewById(R.id.savedButton);
-		getSaved.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connected = SendRequest.getConnected(MainActivity.this);
-				if(connected) {
-					try{
-						String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
-						if (myZip != null) {
-							Intent forecastView = new Intent(_context, ForecastView.class);
-							forecastView.putExtra("zip", myZip);
-							startActivityForResult(forecastView, 0);
-						}
-					} catch(Exception e) {
-						Log.e("STORED ZIP", "There is no stored zip!");
-					}
-				} else {
-					Log.i("CONNECTION", "You are not connected to the Internet!");
-				}
-			}
-		});
 	}
-	
 //Inflate the menu; this adds items to the action bar if it is present.
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,18 +55,29 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 			}
 		}
 	}
-
+//Functionality for the new forecast button. It uses the user inputed zip to do a normal call.
 	@Override
 	public void onForecastGet() {
 		connected = SendRequest.getConnected(MainActivity.this);
 		if(connected) {
 			String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
-			Intent forecastView = new Intent(_context, ForecastView.class);
-			forecastView.putExtra("zip", typedZip);
-			startActivityForResult(forecastView, 0);
+			if (typedZip.length() < 6 && typedZip.length() > 4) {
+				Intent forecastView = new Intent(_context, ForecastView.class);
+				forecastView.putExtra("zip", typedZip);
+				startActivityForResult(forecastView, 0);
+			} else {
+			AlertDialog alert = new AlertDialog.Builder(this).create();
+  			alert.setTitle("Error");
+  		    alert.setMessage("You must type in an five(5) digit zip code.");
+  		    alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+  		        public void onClick(final DialogInterface dialog, final int which) {
+  		        }
+  		     });
+  		     alert.show();
+			}
 		}
 	}
-	
+//Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
 	@Override
 	public void onHomeGet() {
 		connected = SendRequest.getConnected(MainActivity.this);
