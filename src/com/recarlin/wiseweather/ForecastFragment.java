@@ -10,15 +10,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class ForecastFragment extends Fragment {
-	
 	private checker check;
-	
+//Interface used to perform actions from any activity.
 	public interface checker {
 		public void onBack();
 		public void onSaveHome();
 		public void onViewJSON();
 	}
-	
+//Sets the listeners on all the buttons.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -47,7 +46,7 @@ public class ForecastFragment extends Fragment {
     	});
 		return view;
 	}
-	
+//Checks to see if the activity calling the fragment has the correct implementation to use it.
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
