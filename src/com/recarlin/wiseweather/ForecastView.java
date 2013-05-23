@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import forecastBuilder.ConnectionService;
 import forecastBuilder.ForecastOperations;
 import forecastBuilder.RequestService;
 import android.app.Activity;
@@ -15,6 +16,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +31,16 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 	String permZip;
 	Boolean doSave = false;
 	Boolean loaded = false;
+	private Handler handler = new Handler() {
+		public void handleMessage(Message message) {
+			Object path = message.obj;
+			if (message.arg1 == RESULT_OK && path != null) {
+
+			} else {
+
+			}
+		};
+	};
 //Here we set the ContentView to the fragment.
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,19 +57,23 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
         	Bundle data = getIntent().getExtras();
 	        if(data != null){
 	          permZip = data.getString("zip");
-	          getForcastURL(permZip);
+	          getForecastURL(permZip);
 	        }
 	        loaded = true;
         }
     }
 //This builds a URL for the request, based on what you pass into it from the EditText, and executes the getTimeline instance.
-  	private void getForcastURL(String zipCode) {
+  	private void getForecastURL(String zipCode) {
   		try {
-  			URL forcastURL = new URL("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zipCode + ".json");
-  			getForcast gfc = new getForcast();
-  			gfc.execute(forcastURL);
-  		} catch(MalformedURLException e) {
-  			Log.e("MALFORMED URL", "URL is incorrect!");
+  			String forecastURL = new String("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zipCode + ".json");
+  			Intent intent = new Intent(this, ConnectionService.class);
+  		    Messenger messenger = new Messenger(handler);
+  		    intent.putExtra("MESSENGER", messenger);
+  		    intent.setData(Uri.parse(forecastURL));
+  		    intent.putExtra("urlpath", forecastURL);
+  		    startService(intent);
+  		} catch(Exception e) {
+  			Log.e("GET FORECAST", "Something went wrong!");
   		}
   	}
 //Performs the URL request, reads the data, puts it into a TextView, and adds it to the main view.
@@ -64,7 +82,7 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   		protected String doInBackground(URL...urls) {
   			String response = "";
   			for (URL url: urls) {
-  				response = RequestService.getResponse(url);
+//  				response = RequestService.getResponse(url);
   			}
   			return response;
   		}

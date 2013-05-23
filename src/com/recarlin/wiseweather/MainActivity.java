@@ -6,9 +6,13 @@
  */
 package com.recarlin.wiseweather;
 
+import forecastBuilder.ConnectionService;
 import forecastBuilder.FileSystemActions;
 import forecastBuilder.RequestService;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -58,7 +62,10 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the new forecast button. It uses the user inputed zip to do a normal call.
 	@Override
 	public void onForecastGet() {
-		connected = RequestService.getConnected(MainActivity.this);
+		Intent intent = new Intent(this, ConnectionService.class);
+	    Messenger messenger = new Messenger(handler);
+	    intent.putExtra("MESSENGER", messenger);
+	    startService(intent);
 		if(connected) {
 			String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
 			if (typedZip.length() < 6 && typedZip.length() > 4) {
@@ -80,7 +87,10 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
 	@Override
 	public void onHomeGet() {
-		connected = RequestService.getConnected(MainActivity.this);
+		Intent intent = new Intent(this, ConnectionService.class);
+	    Messenger messenger = new Messenger(handler);
+	    intent.putExtra("MESSENGER", messenger);
+	    startService(intent);
 		if(connected) {
 			try{
 				String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
@@ -96,4 +106,15 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 			Log.i("CONNECTION", "You are not connected to the Internet!");
 		}
 	}
+
+	private Handler handler = new Handler() {
+		public void handleMessage(Message message) {
+			Object path = message.obj;
+			if (message.arg1 == RESULT_OK && path != null) {
+				connected = true;
+			} else {
+				connected = false;
+			}
+		};
+	};
 }

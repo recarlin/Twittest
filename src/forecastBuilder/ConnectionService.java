@@ -32,7 +32,6 @@ public class ConnectionService extends IntentService {
 			Messenger messenger = (Messenger) extras.get("MESSENGER");
 			Message msg = Message.obtain();
 			msg.arg1 = Activity.RESULT_OK;
-			msg.obj = connected;
 			try {
 				messenger.send(msg);
 			} catch (android.os.RemoteException e1) {
