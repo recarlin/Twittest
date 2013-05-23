@@ -7,7 +7,7 @@
 package com.recarlin.wiseweather;
 
 import forecastBuilder.FileSystemActions;
-import forecastBuilder.SendRequest;
+import forecastBuilder.RequestService;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the new forecast button. It uses the user inputed zip to do a normal call.
 	@Override
 	public void onForecastGet() {
-		connected = SendRequest.getConnected(MainActivity.this);
+		connected = RequestService.getConnected(MainActivity.this);
 		if(connected) {
 			String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
 			if (typedZip.length() < 6 && typedZip.length() > 4) {
@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
 	@Override
 	public void onHomeGet() {
-		connected = SendRequest.getConnected(MainActivity.this);
+		connected = RequestService.getConnected(MainActivity.this);
 		if(connected) {
 			try{
 				String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);

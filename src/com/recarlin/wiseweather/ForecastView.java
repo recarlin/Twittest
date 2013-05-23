@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import forecastBuilder.ForecastOperations;
-import forecastBuilder.SendRequest;
+import forecastBuilder.RequestService;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -64,7 +64,7 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   		protected String doInBackground(URL...urls) {
   			String response = "";
   			for (URL url: urls) {
-  				response = SendRequest.getResponse(url);
+  				response = RequestService.getResponse(url);
   			}
   			return response;
   		}
