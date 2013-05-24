@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class ForecastProvider extends ContentProvider {
 
@@ -105,6 +106,29 @@ public class ForecastProvider extends ContentProvider {
 				}
 			}
 		case PERIODS_ID:
+			String itemId = uri.getLastPathSegment();
+			int index;
+			try {
+				index = Integer.parseInt(itemId);
+			} catch (NumberFormatException e) {
+				Log.e("query", "index format error");
+				break;
+			}
+			if(index <= 0 || index > forecastDayArray.length()) {
+				Log.e("query", "index out of range for " + uri.toString());
+				break;
+			}
+			try {
+				forecastStuff = forecastDayArray.getJSONObject(index);
+				result.addRow(new Object[] {index, forecastStuff.get(RequestService.JSON_PERIOD),
+						forecastStuff.get(RequestService.JSON_TXTFORECAST)});
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+			default:
+				Log.e("query", "invald uri = " + uri.toString());
 		}
 		return result;
 	}
