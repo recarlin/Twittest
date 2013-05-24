@@ -1,32 +1,21 @@
 package com.recarlin.wiseweather;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import forecastBuilder.ConnectionService;
-import forecastBuilder.ForecastOperations;
-import forecastBuilder.RequestService;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+@SuppressLint("HandlerLeak")
 public class ForecastView extends Activity implements ForecastFragment.checker{
 	String permZip;
 	Boolean doSave = false;
@@ -35,9 +24,16 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 		public void handleMessage(Message message) {
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
-
+				
 			} else {
-
+				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();
+	  			alert.setTitle("Error");
+	  		    alert.setMessage("Something went terribly wrong. You should have brought your towel.");
+	  		    alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+	  		    	public void onClick(final DialogInterface dialog, final int which) {
+	  		        }
+	  		     });
+	  		     alert.show();
 			}
 		};
 	};
@@ -74,54 +70,6 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   		    startService(intent);
   		} catch(Exception e) {
   			Log.e("GET FORECAST", "Something went wrong!");
-  		}
-  	}
-//Performs the URL request, reads the data, puts it into a TextView, and adds it to the main view.
-  	private class getForcast extends AsyncTask<URL, Void, String>{
-  		@Override
-  		protected String doInBackground(URL...urls) {
-  			String response = "";
-  			for (URL url: urls) {
-//  				response = RequestService.getResponse(url);
-  			}
-  			return response;
-  		}
-//This is where the magic happens. This takes JSON results and turns it into how I want it to look.
-  		@Override
-  		protected void onPostExecute(String result) {
-//First, we get to where the information we want is.
-  			try {
-  				JSONObject resultJSON = new JSONObject(result);
-  				JSONArray results = resultJSON.getJSONObject("forecast").getJSONObject("txt_forecast").getJSONArray("forecastday");
-  				ArrayList<View> resultArray = ForecastOperations.readForcastJSON(results);
-  				ArrayList<ImageView> imageArray = new ArrayList<ImageView>();
-  				ArrayList<TextView> textArray = new ArrayList<TextView>();
-//Next, we take even numbered views, which are ImageViews, and put them into an ArrayList.
-//The same is done to odd numbered views, which are placed into their own TextView ArrayList.
-  				for (int i = 0; i < resultArray.size(); i++) {
-  					if ((i % 2) == 0) {
-  						imageArray.add((ImageView)resultArray.get(i));
-  					} else {
-  						textArray.add((TextView)resultArray.get(i));
-  					}
-  				}
-//Lastly, we take those two ArrayLists, one of ImageViews and one of TextViews, and iterate through them.
-//Each one is placed into separate LinearLayouts, based on i, that have already been set up.
-  				for (int i = 0; i < imageArray.size(); i++) {
-  					String idString = "_" + i;
-  					int idInt = getResources().getIdentifier(idString, "id", getPackageName());
-  					LinearLayout layout = ((LinearLayout)findViewById(idInt));
-  					layout.addView(imageArray.get(i));
-  				}
-  				for (int i = 0; i < textArray.size(); i++) {
-  					String idString = "_" + i;
-  					int idInt = getResources().getIdentifier(idString, "id", getPackageName());
-  					LinearLayout layout = ((LinearLayout)findViewById(idInt));
-  					layout.addView(textArray.get(i));
-  				}
-  			} catch(JSONException e) {
-  				Log.e("JSON ERROR", "Your JSON is incorrect!");
-  			}
   		}
   	}
 //This makes an intent to send back to the main activity. It is used to save the zip, if selected.

@@ -8,11 +8,11 @@ package com.recarlin.wiseweather;
 
 import forecastBuilder.ConnectionService;
 import forecastBuilder.FileSystemActions;
-import forecastBuilder.RequestService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+@SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements WeatherFragment.checker{
 	private static Context _context;
 	Boolean connected = false;
@@ -77,7 +78,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
   			alert.setTitle("Error");
   		    alert.setMessage("You must type in an five(5) digit zip code.");
   		    alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-  		        public void onClick(final DialogInterface dialog, final int which) {
+  		    	public void onClick(final DialogInterface dialog, final int which) {
   		        }
   		     });
   		     alert.show();
