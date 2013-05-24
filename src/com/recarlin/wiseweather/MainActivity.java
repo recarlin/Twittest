@@ -27,7 +27,7 @@ import android.widget.EditText;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements WeatherFragment.checker{
 	private static Context _context;
-	Boolean connected = false;
+	Boolean connected = true;
 //Sets the layout fragment and also sets the _context up for use.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +74,24 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 				forecastView.putExtra("zip", typedZip);
 				startActivityForResult(forecastView, 0);
 			} else {
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-  			alert.setTitle("Error");
-  		    alert.setMessage("You must type in an five(5) digit zip code.");
-  		    alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-  		    	public void onClick(final DialogInterface dialog, final int which) {
-  		        }
-  		     });
+				AlertDialog alert = new AlertDialog.Builder(this).create();
+				alert.setTitle("Error");
+				alert.setMessage("You must type in an five(5) digit zip code.");
+				alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, final int which) {
+					}
+				});
   		     alert.show();
 			}
+		} else {
+			AlertDialog alert = new AlertDialog.Builder(this).create();
+			alert.setTitle("Error");
+			alert.setMessage("You are not connected!");
+			alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+				public void onClick(final DialogInterface dialog, final int which) {
+				}
+			});
+			alert.show();
 		}
 	}
 //Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
@@ -112,9 +121,9 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 		public void handleMessage(Message message) {
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
-				connected = true;
+				Log.i("CONNECTED", "YOU ARE CONNECTED");
 			} else {
-				connected = false;
+				Log.i("CONNECTED", "YOU ARE NOT CONNECTED");
 			}
 		};
 	};

@@ -1,6 +1,7 @@
 package com.recarlin.wiseweather;
 
 import forecastBuilder.ConnectionService;
+import forecastBuilder.RequestService;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,7 +25,8 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 		public void handleMessage(Message message) {
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
-				
+				String data = RequestService.readFile(MainActivity.getAppContext(), RequestService.FILENAME, false);
+				Log.i("DATA", data);
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();
 	  			alert.setTitle("Error");
