@@ -40,10 +40,9 @@
         </service>
         <provider
             android:exported="true"
-            android:name="ForecastProvider"
+            android:name="com.recarlin.wiseweather.ForecastProvider"
             android:authorities="com.recarlin.wiseweather.forecastprovider"
-            tools:ignore="ExportedContentProvider">
-        </provider>
+            tools:ignore="ExportedContentProvider"/>
     </application>
 
 </manifest>

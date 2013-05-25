@@ -46,6 +46,7 @@ public class RequestService extends IntentService{
 		Bundle data = intent.getExtras();
 		
 		String response = null;
+		StringBuffer buff = new StringBuffer();
 		URL url = null;
 		File file = new File(this.getExternalFilesDir(null), FILENAME);
 		try {
@@ -58,7 +59,7 @@ public class RequestService extends IntentService{
 			BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
 			byte[] content = new byte[1024];
 			int read = 0;
-			StringBuffer buff = new StringBuffer();
+			
 			while((read = bis.read(content)) != -1) {
 				response = new String(content,0,read);
 				buff.append(response);
@@ -75,7 +76,7 @@ public class RequestService extends IntentService{
 		try{
 			FileOutputStream outputStream;
 			outputStream = new FileOutputStream(file);
-			outputStream.write(response.getBytes());
+			outputStream.write(buff.toString().getBytes());
 			outputStream.close();
 			result = Activity.RESULT_OK;
 		} catch(IOException e) {
@@ -88,6 +89,7 @@ public class RequestService extends IntentService{
 			Message msg = Message.obtain();
 			msg.arg1 = result;
 			msg.obj = file.getAbsolutePath();
+			Log.i("DATA", buff.toString());
 			try {
 				messenger.send(msg);
 			} catch (android.os.RemoteException e1) {

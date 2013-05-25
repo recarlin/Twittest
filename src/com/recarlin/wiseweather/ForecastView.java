@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +26,8 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
 				
-				Uri uri = Uri.parse("com.example.application.ForecastProvider/" + path);
-				ForecastProvider.query(uri, projection, selection, selectionArgs, sortOrder)
+				Uri uri = Uri.parse("content://com.recarlin.wiseweather.forecastprovider");
+				Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 				
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();

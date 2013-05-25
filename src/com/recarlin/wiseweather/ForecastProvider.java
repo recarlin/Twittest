@@ -74,7 +74,7 @@ public class ForecastProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		MatrixCursor result = new MatrixCursor(WeatherData.PROJECTION);
-		String JSONString = RequestService.readFile(getContext(), RequestService.FILENAME, false);
+		String JSONString = RequestService.readFile(getContext(), RequestService.FILENAME, true);
 		JSONObject complete = null;
 		JSONObject forecastObject = null;
 		JSONObject textObject = null;
