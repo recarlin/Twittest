@@ -88,7 +88,6 @@ public class RequestService extends IntentService{
 			Message msg = Message.obtain();
 			msg.arg1 = result;
 			msg.obj = file.getAbsolutePath();
-			Log.i("MESSAGE", msg.obj.toString());
 			try {
 				messenger.send(msg);
 			} catch (android.os.RemoteException e1) {

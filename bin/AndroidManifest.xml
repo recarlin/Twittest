@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.recarlin.wiseweather"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -41,7 +41,8 @@
         <provider
             android:exported="true"
             android:name="ForecastProvider"
-            android:authorities="com.recarlin.wiseweather.forecastprovider">
+            android:authorities="com.recarlin.wiseweather.forecastprovider"
+            tools:ignore="ExportedContentProvider">
         </provider>
     </application>
 

@@ -24,8 +24,10 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 		public void handleMessage(Message message) {
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
-				String data = RequestService.readFile(MainActivity.getAppContext(), RequestService.FILENAME, false);
-				Log.i("DATA", data);
+				
+				Uri uri = Uri.parse("com.example.application.ForecastProvider/" + path);
+				ForecastProvider.query(uri, projection, selection, selectionArgs, sortOrder)
+				
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();
 	  			alert.setTitle("Error");
