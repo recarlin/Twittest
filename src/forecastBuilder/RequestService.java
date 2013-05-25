@@ -20,8 +20,6 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
@@ -42,30 +40,16 @@ public class RequestService extends IntentService{
 	public RequestService() {
 		super("SendRequest");
 	}
-	static Boolean connected = false;
-//Runs the check for Internet connectivity.
-	public static Boolean getConnected(Context context) {
-		connectionInfo(context);
-		return connected;
-	}
-//Checks to see if you are connected to the Internet.
-	public static void connectionInfo(Context context) {
-		ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = manager.getActiveNetworkInfo();
-		if(netInfo != null) {
-			if(netInfo.isConnected()) {
-				connected = true;
-			}
-		}
-	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		Bundle data = intent.getExtras();
+		
 		String response = null;
 		URL url = null;
 		File file = new File(this.getExternalFilesDir(null), FILENAME);
 		try {
-			url = new URL(intent.getStringExtra("urlpath"));
+			url = new URL(data.getString("urlpath"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -104,6 +88,7 @@ public class RequestService extends IntentService{
 			Message msg = Message.obtain();
 			msg.arg1 = result;
 			msg.obj = file.getAbsolutePath();
+			Log.i("MESSAGE", msg.obj.toString());
 			try {
 				messenger.send(msg);
 			} catch (android.os.RemoteException e1) {

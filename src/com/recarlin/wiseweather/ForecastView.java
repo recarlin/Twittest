@@ -1,6 +1,5 @@
 package com.recarlin.wiseweather;
 
-import forecastBuilder.ConnectionService;
 import forecastBuilder.RequestService;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -64,7 +63,8 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   	private void getForecastURL(String zipCode) {
   		try {
   			String forecastURL = new String("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zipCode + ".json");
-  			Intent intent = new Intent(this, ConnectionService.class);
+  			
+  			Intent intent = new Intent(this, RequestService.class);
   		    Messenger messenger = new Messenger(handler);
   		    intent.putExtra("MESSENGER", messenger);
   		    intent.setData(Uri.parse(forecastURL));

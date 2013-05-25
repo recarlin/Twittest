@@ -6,12 +6,9 @@
  */
 package com.recarlin.wiseweather;
 
-import forecastBuilder.ConnectionService;
+import forecastBuilder.ConnectionCheck;
 import forecastBuilder.FileSystemActions;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,7 +24,7 @@ import android.widget.EditText;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements WeatherFragment.checker{
 	private static Context _context;
-	Boolean connected = true;
+	Boolean connected = false;
 //Sets the layout fragment and also sets the _context up for use.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +60,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the new forecast button. It uses the user inputed zip to do a normal call.
 	@Override
 	public void onForecastGet() {
-		Intent intent = new Intent(this, ConnectionService.class);
-	    Messenger messenger = new Messenger(handler);
-	    intent.putExtra("MESSENGER", messenger);
-	    startService(intent);
+		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
 			String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
 			if (typedZip.length() < 6 && typedZip.length() > 4) {
@@ -97,10 +91,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 //Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
 	@Override
 	public void onHomeGet() {
-		Intent intent = new Intent(this, ConnectionService.class);
-	    Messenger messenger = new Messenger(handler);
-	    intent.putExtra("MESSENGER", messenger);
-	    startService(intent);
+		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
 			try{
 				String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
@@ -113,18 +104,14 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 				Log.e("STORED ZIP", "There is no stored zip!");
 			}
 		} else {
-			Log.i("CONNECTION", "You are not connected to the Internet!");
+			AlertDialog alert = new AlertDialog.Builder(this).create();
+			alert.setTitle("Error");
+			alert.setMessage("You are not connected!");
+			alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+				public void onClick(final DialogInterface dialog, final int which) {
+				}
+			});
+			alert.show();
 		}
 	}
-
-	private Handler handler = new Handler() {
-		public void handleMessage(Message message) {
-			Object path = message.obj;
-			if (message.arg1 == RESULT_OK && path != null) {
-				Log.i("CONNECTED", "YOU ARE CONNECTED");
-			} else {
-				Log.i("CONNECTED", "YOU ARE NOT CONNECTED");
-			}
-		};
-	};
 }

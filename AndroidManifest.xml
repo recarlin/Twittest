@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
         <service
-            android:name="DownloadService">
+            android:enabled="true"
+            android:name="forecastBuilder.RequestService">
         </service>
         <provider
             android:exported="true"
