@@ -1,104 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imagePLZ"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+    <TextView
+        style="@style/Title"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-        android:text="Your Forecast"
-        style="@style/Title"/>
+        android:layout_height="wrap_content"
+        android:text="@string/your_forecast" />
     <LinearLayout
         android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-        <Button 
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
             android:id="@+id/back"
             android:layout_width="0dp"
-           	android:layout_height="wrap_content"
-           	android:layout_weight=".3"
-           	android:text="Back"/>
-        
-        <Button 
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:text="@string/back"
+            tools:ignore="ButtonStyle" />
+        <Button
             android:id="@+id/saveZip"
             android:layout_width="0dp"
-           	android:layout_height="wrap_content"
-           	android:layout_weight=".3"
-           	android:text="Save Home Zip"/>
-        
-        <Button 
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:text="@string/save_home_zip"
+            tools:ignore="ButtonStyle" />
+        <Button
             android:id="@+id/JSONSource"
             android:layout_width="0dp"
-           	android:layout_height="wrap_content"
-           	android:layout_weight=".3"
-           	android:text="View JSON"/>
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:text="@string/view_json"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
-    <ScrollView 
+    <ScrollView
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content">
-        <LinearLayout 
+        android:layout_height="wrap_content" >
+        <LinearLayout
             android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="vertical">
-		    <LinearLayout
-		        android:id="@+id/_0"
-		        android:layout_width="match_parent"
-		    	android:layout_height="wrap_content"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_1"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_2"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_3"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_4"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_5"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_6"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-		    
-		    <LinearLayout
-		        android:id="@+id/_7"
-		        android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="horizontal">
-		    </LinearLayout>
-	    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+            <LinearLayout
+                android:id="@+id/_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
-    
-    
 </LinearLayout>

@@ -15,6 +15,8 @@ import android.os.Messenger;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 @SuppressLint("HandlerLeak")
 public class ForecastView extends Activity implements ForecastFragment.checker{
@@ -26,8 +28,23 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
 				
-				Uri uri = Uri.parse("content://com.recarlin.wiseweather.forecastprovider");
+				Uri uri = Uri.parse("content://com.recarlin.wiseweather.forecastprovider/periods");
 				Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+				while (cursor.moveToNext()) {
+					TextView first = new TextView(MainActivity.getAppContext());
+					TextView second = new TextView(MainActivity.getAppContext());
+  					LinearLayout col1 = ((LinearLayout)findViewById(getResources().getIdentifier("_0", "id", getPackageName())));
+  					
+  					first.setText(cursor.getString(1));
+					second.setText(cursor.getString(2) + "\n");
+					
+					first.setTextAppearance(getApplicationContext(), R.style.Title);
+					first.setTextSize(24);
+					second.setTextAppearance(getApplicationContext(), R.style.Forecast);
+					
+  					col1.addView(first);
+  					col1.addView(second);
+				}
 				
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();

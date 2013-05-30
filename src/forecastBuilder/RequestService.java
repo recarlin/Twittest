@@ -89,7 +89,6 @@ public class RequestService extends IntentService{
 			Message msg = Message.obtain();
 			msg.arg1 = result;
 			msg.obj = file.getAbsolutePath();
-			Log.i("DATA", buff.toString());
 			try {
 				messenger.send(msg);
 			} catch (android.os.RemoteException e1) {
@@ -127,5 +126,30 @@ public class RequestService extends IntentService{
 			Log.e("READ", "I/O Error: ");
 		}
 		return zip;
+	}
+	
+	@SuppressWarnings("resource")
+	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
+		try{
+			File file = new File("zip");
+			file.delete();
+		} catch(Exception e) {
+			Log.e("FILE", "No zip file, continue with file creation!");
+		}
+		try{
+			File file;
+			FileOutputStream outputStream;
+			if(external) {
+				file = new File(context.getExternalFilesDir(null), filename);
+				outputStream = new FileOutputStream(file);
+			} else {
+				outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+			}
+			outputStream.write(content.getBytes());
+			outputStream.close();
+		} catch(IOException e) {
+			Log.e("WRITE", filename);
+		}
+		return true;
 	}
 }

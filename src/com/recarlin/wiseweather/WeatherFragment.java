@@ -1,12 +1,13 @@
 package com.recarlin.wiseweather;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class WeatherFragment extends Fragment {
@@ -16,6 +17,7 @@ public class WeatherFragment extends Fragment {
 	public interface checker {
 		public void onForecastGet();
 		public void onHomeGet();
+		public void onChangeGet();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +37,14 @@ public class WeatherFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				check.onHomeGet();
+			}
+		});
+//Checks to see if there is a stored zip code on the file system. If so, it loads the info for that zip code.
+		ImageView getChange = (ImageView) view.findViewById(R.id.changeLogButton);
+		getChange.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				check.onChangeGet();
 			}
 		});
 		return view;

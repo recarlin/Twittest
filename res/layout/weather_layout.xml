@@ -1,39 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+    <TextView
+        style="@style/Title"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-        android:text="WiseWeather Forecast"
-        style="@style/Title"/>
-    
+        android:layout_height="wrap_content"
+        android:text="@string/wiseweather_forecast" />
     <EditText
-		android:id="@+id/zipText"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:inputType="numberDecimal"
-	    android:digits="1234567890"
-	    android:hint="Enter Zip Code"/>
-    
-    <LinearLayout 
+        android:id="@+id/zipText"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_gravity="center_horizontal">
-        <Button 
+        android:layout_height="wrap_content"
+        android:digits="1234567890"
+        android:hint="@string/enter_zip_code"
+        android:inputType="numberDecimal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+        <Button
             android:id="@+id/forcastButton"
             android:layout_width="0dp"
-           	android:layout_height="wrap_content"
-           	android:layout_weight=".4"
-           	android:text="New Forecast"/>
-        <Button 
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="@string/new_forecast"
+            tools:ignore="ButtonStyle" />
+        <Button
             android:id="@+id/savedButton"
             android:layout_width="0dp"
-           	android:layout_height="wrap_content"
-           	android:layout_weight=".4"
-           	android:text="Home Forecast"/>
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="@string/home_forecast"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+        <TextView
+	        style="@style/Forecast"
+	        android:textAlignment="gravity"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_gravity="center|center_vertical"
+	        android:text="@string/change_log" />
+	    <ImageView
+	        android:id="@+id/changeLogButton"
+	        android:clickable="true"
+	        android:layout_gravity="center"
+	        android:layout_width="150dp"
+	        android:layout_height="150dp"
+	        android:scaleType="fitCenter"
+	        android:contentDescription="@string/logo"
+	        android:src="@drawable/ic_launcher"/>
+	</LinearLayout>
 </LinearLayout>

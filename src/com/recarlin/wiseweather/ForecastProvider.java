@@ -20,7 +20,7 @@ public class ForecastProvider extends ContentProvider {
 	
 	public static class WeatherData implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/periods");
-		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.recarlin/wiseweather.periods";
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.recarlin.wiseweather.periods";
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.recarlin.wiseweather.periods";
 		
 		public static final String PERIOD_COLUMN = "title";
@@ -37,8 +37,8 @@ public class ForecastProvider extends ContentProvider {
 	private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	
 	static {
-		uriMatcher.addURI(AUTHORITY, "urlpath/", PERIODS);
-		uriMatcher.addURI(AUTHORITY, "urlpath/#", PERIODS_ID);
+		uriMatcher.addURI(AUTHORITY, "periods/", PERIODS);
+		uriMatcher.addURI(AUTHORITY, "periods/#", PERIODS_ID);
 	}
 	
 	@Override
@@ -87,7 +87,7 @@ public class ForecastProvider extends ContentProvider {
 			textObject = forecastObject.getJSONObject(RequestService.JSON_TEXT);
 			forecastDayArray = textObject.getJSONArray(RequestService.JSON_FORECASTDAY);
 		} catch(JSONException e) {
-			e.printStackTrace();
+			Log.e("GETJSONARRAY", "Error digging down to the JSONArray");
 		}
 		
 		if (forecastDayArray == null) {
@@ -99,10 +99,9 @@ public class ForecastProvider extends ContentProvider {
 			for ( int i = 0;i<forecastDayArray.length();i++) {
 				try {
 					forecastStuff = forecastDayArray.getJSONObject(i);
-					result.addRow(new Object[] {i +1, forecastStuff.get(RequestService.JSON_PERIOD),
-							forecastStuff.get(RequestService.JSON_TXTFORECAST)});
+					result.addRow(new Object[] {i +1, forecastStuff.get(RequestService.JSON_PERIOD), forecastStuff.get(RequestService.JSON_TXTFORECAST)});
 				} catch (JSONException e) {
-					e.printStackTrace();
+					Log.e("JSONException", "Problem adding row from JSON data");
 				}
 			}
 		case PERIODS_ID:
@@ -120,8 +119,7 @@ public class ForecastProvider extends ContentProvider {
 			}
 			try {
 				forecastStuff = forecastDayArray.getJSONObject(index);
-				result.addRow(new Object[] {index, forecastStuff.get(RequestService.JSON_PERIOD),
-						forecastStuff.get(RequestService.JSON_TXTFORECAST)});
+				result.addRow(new Object[] {index, forecastStuff.get(RequestService.JSON_PERIOD), forecastStuff.get(RequestService.JSON_TXTFORECAST)});
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

@@ -6,15 +6,17 @@
  */
 package com.recarlin.wiseweather;
 
+import com.inscription.ChangeLogDialog;
+
 import forecastBuilder.ConnectionCheck;
-import forecastBuilder.FileSystemActions;
+import forecastBuilder.RequestService;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
@@ -22,7 +24,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 @SuppressLint("HandlerLeak")
-public class MainActivity extends Activity implements WeatherFragment.checker{
+public class MainActivity extends FragmentActivity implements WeatherFragment.checker{
 	private static Context _context;
 	Boolean connected = false;
 //Sets the layout fragment and also sets the _context up for use.
@@ -32,7 +34,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
-		setContentView(R.layout.weather_fragment);
+		setContentView(R.id.weather_fragment_thing);
 	}
 //Inflate the menu; this adds items to the action bar if it is present.
 	@Override
@@ -53,7 +55,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 			Boolean saveOrNot = result.getBoolean("doSave");
 			if (saveOrNot.equals(true)) {
 				String saveMahZip = result.getString("saveThisZip");
-				FileSystemActions.storeFile(_context, "zip", saveMahZip, false);
+				RequestService.storeFile(_context, "zip", saveMahZip, false);
 			}
 		}
 	}
@@ -94,7 +96,7 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
 			try{
-				String myZip = FileSystemActions.readFile(MainActivity.this, "zip", false);
+				String myZip = RequestService.readFile(MainActivity.this, "zip", false);
 				if (myZip != null) {
 					Intent forecastView = new Intent(_context, ForecastView.class);
 					forecastView.putExtra("zip", myZip);
@@ -103,15 +105,38 @@ public class MainActivity extends Activity implements WeatherFragment.checker{
 			} catch(Exception e) {
 				Log.e("STORED ZIP", "There is no stored zip!");
 			}
-		} else {
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Error");
-			alert.setMessage("You are not connected!");
-			alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-				public void onClick(final DialogInterface dialog, final int which) {
+			connected = ConnectionCheck.getConnected(this);
+			if(connected) {
+				String myZip = RequestService.readFile(MainActivity.this, "zip", false);
+				if (myZip != null) {
+					Intent forecastView = new Intent(_context, ForecastView.class);
+					forecastView.putExtra("zip", myZip);
+					startActivityForResult(forecastView, 0);
+				} else {
+					AlertDialog alert = new AlertDialog.Builder(this).create();
+					alert.setTitle("Error");
+					alert.setMessage("There is no Home Zip saved!");
+					alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog, final int which) {
+						}
+					});
+	  		     alert.show();
 				}
-			});
-			alert.show();
+			} else {
+				AlertDialog alert = new AlertDialog.Builder(this).create();
+				alert.setTitle("Error");
+				alert.setMessage("You are not connected!");
+				alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, final int which) {
+					}
+				});
+				alert.show();
+			}
 		}
+	}
+	@Override
+	public void onChangeGet() {
+		ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(this);
+		_ChangelogDialog.show();
 	}
 }
