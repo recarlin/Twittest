@@ -24,10 +24,12 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 	Boolean doSave = false;
 	Boolean loaded = false;
 	private Handler handler = new Handler() {
+//This receives the message from the request service and checks if it was successful for not.
+//If so, we then get the cursor from a query call on the content provider.
+//After getting the cursor, we iterate through it, placing the data in the scrollview to display.
 		public void handleMessage(Message message) {
 			Object path = message.obj;
 			if (message.arg1 == RESULT_OK && path != null) {
-				
 				Uri uri = Uri.parse("content://com.recarlin.wiseweather.forecastprovider/periods");
 				Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 				while (cursor.moveToNext()) {
@@ -45,7 +47,6 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
   					col1.addView(first);
   					col1.addView(second);
 				}
-				
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.getAppContext()).create();
 	  			alert.setTitle("Error");
@@ -79,11 +80,10 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 	        loaded = true;
         }
     }
-//This builds a URL for the request, based on what you pass into it from the EditText, and executes the getTimeline instance.
+//This builds a URL for the request, based on what you pass into it from the EditText. It then starts the service to retrieve the data.
   	private void getForecastURL(String zipCode) {
   		try {
   			String forecastURL = new String("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zipCode + ".json");
-  			
   			Intent intent = new Intent(this, RequestService.class);
   		    Messenger messenger = new Messenger(handler);
   		    intent.putExtra("MESSENGER", messenger);

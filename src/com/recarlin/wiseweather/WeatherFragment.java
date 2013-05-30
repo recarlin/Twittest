@@ -39,7 +39,7 @@ public class WeatherFragment extends Fragment {
 				check.onHomeGet();
 			}
 		});
-//Checks to see if there is a stored zip code on the file system. If so, it loads the info for that zip code.
+//This handles the click listener on the logo, which opens the change log.
 		ImageView getChange = (ImageView) view.findViewById(R.id.changeLogButton);
 		getChange.setOnClickListener(new View.OnClickListener() {
 			@Override

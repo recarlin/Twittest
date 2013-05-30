@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="1.2" versioncode="3" summary="Example summary" date="12/26/2012">
-        <change>Fixed: A bug fix</change>
-        <change>Button appearance changed</change>
-        <change>More small layout changes</change>
-    </release>    
-    <release version="1.1" versioncode="2" date="12/25/2012">
-        <change>Small layout change</change>
+    <release version="1.4" versioncode="4" summary="Week Four" date="5/30/2013">
+        <change>Third-party library added.</change>
+        <change>Fixed the issues with the Content Provider.</change>
         <change>Minor tweaks</change>
-    </release>      
+    </release>    
+    <release version="1.3" versioncode="3" summary="Week Three" date="5/23/2013">
+        <change>Service and Content Provider added.</change>
+        <change>Changes to how data is displayed.</change>
+        <change>Minor tweaks</change>
+    </release>  
+    <release version="1.2" versioncode="2" summary="Week Two" date="5/16/2013">
+        <change>Fragments added.</change>
+        <change>Layout system altered.</change>
+        <change>Minor tweaks</change>
+    </release>  
+    <release version="1.1" versioncode="1" summary="Week One" date="5/9/2013">
+        <change>Explicit and implicit intents added.</change>
+        <change>Added the ability to save your home zip.</change>
+        <change>Added the ability to view the raw JSON data.</change>
+        <change>Minor tweaks</change>
+    </release>  
 </changelog>

@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
-		setContentView(R.id.weather_fragment_thing);
+		setContentView(R.layout.weather_fragment);
 	}
 //Inflate the menu; this adds items to the action bar if it is present.
 	@Override
@@ -134,6 +134,7 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 			}
 		}
 	}
+//This opens the third-party Inscription dialog that displays the changes in each version of the app.
 	@Override
 	public void onChangeGet() {
 		ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(this);

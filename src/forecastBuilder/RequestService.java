@@ -40,11 +40,12 @@ public class RequestService extends IntentService{
 	public RequestService() {
 		super("SendRequest");
 	}
-
+//Here we grab the url sent via the intent. We then connect through the Internet and get the data.
+//Next, we save the data into a file for use by the content provider.
+//Lastly, we send a message back to the caller, with the file path and whether or not the process was successful.
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Bundle data = intent.getExtras();
-		
 		String response = null;
 		StringBuffer buff = new StringBuffer();
 		URL url = null;
@@ -82,7 +83,6 @@ public class RequestService extends IntentService{
 		} catch(IOException e) {
 			Log.e("WRITE", FILENAME);
 		}
-		
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			Messenger messenger = (Messenger) extras.get("MESSENGER");
@@ -96,7 +96,7 @@ public class RequestService extends IntentService{
 			}
 		}
 	}
-	
+//This is a basic file reader. It will read the files and return a string.
 	@SuppressWarnings("resource")
 	public static String readFile(Context context, String filename, Boolean external) {
 		String zip = "";
@@ -127,7 +127,7 @@ public class RequestService extends IntentService{
 		}
 		return zip;
 	}
-	
+//This is a basic file storing method. I use it to store the home zip.
 	@SuppressWarnings("resource")
 	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
 		try{

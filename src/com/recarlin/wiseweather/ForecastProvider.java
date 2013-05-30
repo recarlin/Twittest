@@ -17,7 +17,7 @@ import android.util.Log;
 public class ForecastProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "com.recarlin.wiseweather.forecastprovider";
-	
+//Sets up static variables for common strings to reduce typing errors. Also sets up columns for the cursor.
 	public static class WeatherData implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/periods");
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.recarlin.wiseweather.periods";
@@ -40,13 +40,11 @@ public class ForecastProvider extends ContentProvider {
 		uriMatcher.addURI(AUTHORITY, "periods/", PERIODS);
 		uriMatcher.addURI(AUTHORITY, "periods/#", PERIODS_ID);
 	}
-	
+//Insures nothing happens if delete is called.
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-
 	@Override
 	public String getType(Uri uri) {
 		switch (uriMatcher.match(uri)) {
@@ -58,19 +56,18 @@ public class ForecastProvider extends ContentProvider {
 		}
 		return null;
 	}
-
+//Insures nothing happens if insert is called.
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-
 	@Override
 	public boolean onCreate() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
+//The main task for the content provider. This will take the JSONString with all the data,
+//drill into the JSONArray we need, then pull the data we want.
+//The data is then placed into a cursor and returned to the caller.
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		MatrixCursor result = new MatrixCursor(WeatherData.PROJECTION);
@@ -130,11 +127,9 @@ public class ForecastProvider extends ContentProvider {
 		}
 		return result;
 	}
-
+//Insures nothing happens if update is called.
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-
 }
