@@ -17,7 +17,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -95,43 +94,30 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 	public void onHomeGet() {
 		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
-			try{
-				String myZip = RequestService.readFile(MainActivity.this, "zip", false);
-				if (myZip != null) {
-					Intent forecastView = new Intent(_context, ForecastView.class);
-					forecastView.putExtra("zip", myZip);
-					startActivityForResult(forecastView, 0);
-				}
-			} catch(Exception e) {
-				Log.e("STORED ZIP", "There is no stored zip!");
-			}
-			connected = ConnectionCheck.getConnected(this);
-			if(connected) {
-				String myZip = RequestService.readFile(MainActivity.this, "zip", false);
-				if (myZip != null) {
-					Intent forecastView = new Intent(_context, ForecastView.class);
-					forecastView.putExtra("zip", myZip);
-					startActivityForResult(forecastView, 0);
-				} else {
-					AlertDialog alert = new AlertDialog.Builder(this).create();
-					alert.setTitle("Error");
-					alert.setMessage("There is no Home Zip saved!");
-					alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog, final int which) {
-						}
-					});
-	  		     alert.show();
-				}
+			String myZip = RequestService.readFile(MainActivity.this, "zip", false);
+			if (myZip != null) {
+				Intent forecastView = new Intent(_context, ForecastView.class);
+				forecastView.putExtra("zip", myZip);
+				startActivityForResult(forecastView, 0);
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(this).create();
 				alert.setTitle("Error");
-				alert.setMessage("You are not connected!");
+				alert.setMessage("There is no Home Zip saved!");
 				alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog, final int which) {
 					}
 				});
-				alert.show();
+  		     alert.show();
 			}
+		} else {
+			AlertDialog alert = new AlertDialog.Builder(this).create();
+			alert.setTitle("Error");
+			alert.setMessage("You are not connected!");
+			alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+				public void onClick(final DialogInterface dialog, final int which) {
+				}
+			});
+			alert.show();
 		}
 	}
 //This opens the third-party Inscription dialog that displays the changes in each version of the app.
