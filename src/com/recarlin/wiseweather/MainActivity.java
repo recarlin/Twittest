@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
 		setContentView(R.layout.weather_fragment);
-		
+//Tries to grab the intent and send another intent to get a forecast, using the zip sent from where ever.
 		try {
 			Intent intent = getIntent();
 			Bundle stuffs = intent.getExtras();
