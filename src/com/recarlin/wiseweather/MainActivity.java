@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,6 +35,30 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
 		setContentView(R.layout.weather_fragment);
+		
+		try {
+			Intent intent = getIntent();
+			Bundle stuffs = intent.getExtras();
+			String zip = stuffs.getString("zip");
+			Log.i("INTENT", zip);
+			connected = ConnectionCheck.getConnected(this);
+			if(connected) {
+				Intent forecastView = new Intent(_context, ForecastView.class);
+				forecastView.putExtra("zip", zip);
+				startActivityForResult(forecastView, 0);
+			} else {
+				AlertDialog alert = new AlertDialog.Builder(this).create();
+				alert.setTitle("Error");
+				alert.setMessage("You are not connected!");
+				alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, final int which) {
+					}
+				});
+				alert.show();
+			}
+		} catch(Exception e){
+			Log.e("INTENT", "You did it wrong, Russell");
+		}
 	}
 //Inflate the menu; this adds items to the action bar if it is present.
 	@Override
