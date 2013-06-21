@@ -3,7 +3,6 @@ package weatherwidget;
 import java.net.URL;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.recarlin.wiseweather.R;
@@ -18,7 +17,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
-	private JSONArray theStuff;
+	public String theStuff;
 	
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -29,11 +28,8 @@ public class WidgetProvider extends AppWidgetProvider {
 				getTimeline gtl = new getTimeline();
 				gtl.execute(url);
 				
-				JSONObject first = theStuff.getJSONObject(0);
-				String forecast = first.getString("fcttext");
-				
 				RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-				rv.setTextViewText(R.id.temp, forecast);
+				rv.setTextViewText(R.id.temp, theStuff);
 				appWidgetManager.updateAppWidget(appWidgetIds, rv);
 			} catch(Exception e) {
 				Log.e("URL IS MESSED UP!", "getResponse");
@@ -58,8 +54,11 @@ public class WidgetProvider extends AppWidgetProvider {
 			try {
 				JSONObject resultJSON = new JSONObject(result);
 				JSONArray results = resultJSON.getJSONObject("forecast").getJSONObject("txt_forecast").getJSONArray("forecastday");
-				theStuff = results;
-			} catch(JSONException e) {
+				JSONObject first = results.getJSONObject(0);
+				String forecast = first.getString("fcttext");
+				theStuff = forecast;
+				Log.i("STUFF", theStuff);
+			} catch(Exception e) {
 				Log.e("JSON ERROR", "Your JSON is incorrect!");
 			}
 		}

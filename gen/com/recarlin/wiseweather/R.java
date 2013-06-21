@@ -27,17 +27,16 @@ public final class R {
         public static final int _0=0x7f090003;
         public static final int _1=0x7f090004;
         public static final int back=0x7f090002;
-        public static final int change=0x7f09000d;
+        public static final int change=0x7f09000c;
         public static final int finished=0x7f090009;
         public static final int forecastButton=0x7f090007;
         public static final int forecast_fragment=0x7f090000;
         public static final int imagePLZ=0x7f090001;
-        public static final int json=0x7f09000e;
-        public static final int load_home=0x7f09000f;
-        public static final int save_home=0x7f09000c;
+        public static final int json=0x7f09000d;
+        public static final int load_home=0x7f09000e;
+        public static final int save_home=0x7f09000b;
         public static final int temp=0x7f09000a;
         public static final int weather_fragment_thing=0x7f090005;
-        public static final int widgetIconButton=0x7f09000b;
         public static final int widgetZip=0x7f090008;
         public static final int zipText=0x7f090006;
     }
