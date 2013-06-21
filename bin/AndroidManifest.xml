@@ -28,8 +28,7 @@
         	</intent-filter>
         </activity>
         <activity
-            android:name="com.recarlin.wiseweather.ForecastView"
-            android:label="@string/forecast_title" >
+            android:name="com.recarlin.wiseweather.ForecastView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

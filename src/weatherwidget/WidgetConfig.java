@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RemoteViews;
+import android.widget.RemoteViews.RemoteView;
 
 public class WidgetConfig extends Activity {
 
@@ -20,9 +22,14 @@ public class WidgetConfig extends Activity {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				
+				
 				Bundle extras = getIntent().getExtras();
 				int widget = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
 				String widgetZip = ((EditText) findViewById(R.id.widgetZip)).toString();
+				RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget_layout);
+				rv.setTextViewText(R.id.temp, "98");
 			}
 		});
 	}

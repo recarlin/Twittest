@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -63,6 +65,13 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forecase_fragment);
     }
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu); 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.forecast_menu, menu);
+		return true;
+	}
 //Checks if information is already loaded onto the screen. If it isn't, it will go ahead and do so.
     @Override
     protected void onStart() {
@@ -104,16 +113,19 @@ public class ForecastView extends Activity implements ForecastFragment.checker{
 	public void onBack() {
 		finish();
 	}
-//Marks the zip to be saved as the new home zip and closes the activity when the Save button is clicked.
 	@Override
-	public void onSaveHome() {
-		doSave = true;
-		finish();
-	}
-//Launches an implicit intent to open the raw JSON data in the browser.
-	@Override
-	public void onViewJSON() {
-		Intent internetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + permZip + ".json"));
-		startActivity(internetIntent);
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case (R.id.save_home):
+	        	doSave = true;
+				finish();
+				break;
+	        case (R.id.json):
+	        	Intent internetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + permZip + ".json"));
+				startActivity(internetIntent);
+	        	break;
+	        default:
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 }

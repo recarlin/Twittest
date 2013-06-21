@@ -14,8 +14,6 @@ public class ForecastFragment extends Fragment {
 //Interface used to perform actions from any activity.
 	public interface checker {
 		public void onBack();
-		public void onSaveHome();
-		public void onViewJSON();
 	}
 //Sets the listeners on all the buttons.
 	@Override
@@ -28,20 +26,6 @@ public class ForecastFragment extends Fragment {
     		@Override
     		public void onClick(View v) {
     			check.onBack();
-    		}
-    	});
-    	Button saveZip = (Button) view.findViewById(R.id.saveZip);
-    	saveZip.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			check.onSaveHome();
-    		}
-    	});
-    	Button JSONSource = (Button) view.findViewById(R.id.JSONSource);
-    	JSONSource.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			check.onViewJSON();
     		}
     	});
 		return view;
