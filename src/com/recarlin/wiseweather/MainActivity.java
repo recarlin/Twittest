@@ -11,60 +11,70 @@ import com.inscription.ChangeLogDialog;
 import forecastBuilder.ConnectionCheck;
 import forecastBuilder.RequestService;
 import android.os.Bundle;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.MenuItem;
 import android.widget.EditText;
 
-@SuppressLint("HandlerLeak")
 public class MainActivity extends FragmentActivity implements WeatherFragment.checker{
 	private static Context _context;
 	Boolean connected = false;
 //Sets the layout fragment and also sets the _context up for use.
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu); 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case (R.id.change):
+	        	ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(this);
+				_ChangelogDialog.show();
+				break;
+	        case (R.id.load_home): 
+	        	homeGet();
+	        	break;
+	        default:
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainActivity._context = getApplicationContext();
 		setContentView(R.layout.weather_fragment);
 //Tries to grab the intent and send another intent to get a forecast, using the zip sent from where ever.
-		try {
-			Intent intent = getIntent();
-			Bundle stuffs = intent.getExtras();
-			String zip = stuffs.getString("zip");
-			Log.i("INTENT", zip);
-			connected = ConnectionCheck.getConnected(this);
-			if(connected) {
-				Intent forecastView = new Intent(_context, ForecastView.class);
-				forecastView.putExtra("zip", zip);
-				startActivityForResult(forecastView, 0);
-			} else {
-				AlertDialog alert = new AlertDialog.Builder(this).create();
-				alert.setTitle("Error");
-				alert.setMessage("You are not connected!");
-				alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-					public void onClick(final DialogInterface dialog, final int which) {
-					}
-				});
-				alert.show();
-			}
-		} catch(Exception e){
-			Log.e("INTENT", "You did it wrong, Russell");
-		}
-	}
-//Inflate the menu; this adds items to the action bar if it is present.
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+//		if (getIntent() != null){
+//			try {
+//				Intent intent = getIntent();
+//				Bundle stuffs = intent.getExtras();
+//				String zip = stuffs.getString("zip");
+//				connected = ConnectionCheck.getConnected(this);
+//				if(connected) {
+//					Intent forecastView = new Intent(_context, ForecastView.class);
+//					forecastView.putExtra("zip", zip);
+//					startActivityForResult(forecastView, 0);
+//				} else {
+//					AlertDialog alert = new AlertDialog.Builder(this).create();
+//					alert.setTitle("Error");
+//					alert.setMessage("You are not connected!");
+//					alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+//						public void onClick(final DialogInterface dialog, final int which) {
+//						}
+//					});
+//					alert.show();
+//				}
+//			} catch(Exception e){
+//				Log.e("INTENT", "You did it wrong, Russell");
+//			}
+//		}
 	}
 //This is used to get the context in other classes that are not extensions of Activity.
 	public static Context getAppContext() {
@@ -115,8 +125,7 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 		}
 	}
 //Functionality for the home forecast button. It pulls the file from the system with the saved zip, and does a normal call.
-	@Override
-	public void onHomeGet() {
+	public void homeGet() {
 		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
 			String myZip = RequestService.readFile(MainActivity.this, "zip", false);
@@ -144,11 +153,5 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 			});
 			alert.show();
 		}
-	}
-//This opens the third-party Inscription dialog that displays the changes in each version of the app.
-	@Override
-	public void onChangeGet() {
-		ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(this);
-		_ChangelogDialog.show();
 	}
 }

@@ -20,21 +20,25 @@
             android:layout_height="wrap_content"
             android:layout_weight=".3"
             android:text="@string/back"
-            tools:ignore="ButtonStyle" />
+            android:textSize="12sp"
+            tools:ignore="ButtonStyle"/>
         <Button
             android:id="@+id/saveZip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".3"
             android:text="@string/save_home_zip"
-            tools:ignore="ButtonStyle" />
+            android:textSize="12sp"
+            tools:ignore="ButtonStyle"/>
         <Button
             android:id="@+id/JSONSource"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".3"
             android:text="@string/view_json"
-            tools:ignore="ButtonStyle" />
+            android:textSize="12sp"
+            tools:ignore="ButtonStyle"/>
+
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"

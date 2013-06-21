@@ -1,5 +1,4 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="AppTheme" parent="android:Theme.Light" />
     
     <style name="Forecast">
         <item name="android:textStyle">normal</item>
@@ -12,5 +11,11 @@
         <item name="android:textSize">30sp</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
     
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+    </style>
 </resources>

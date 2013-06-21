@@ -14,11 +14,10 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/forecast_title"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.recarlin.wiseweather.MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.recarlin.wiseweather.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,6 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<receiver android:name="weatherwidget.WidgetProvider" >
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/widget"/>
+		</receiver>
         <service
             android:enabled="true"
             android:name="forecastBuilder.RequestService">

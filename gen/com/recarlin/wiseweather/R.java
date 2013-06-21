@@ -27,15 +27,18 @@ public final class R {
         public static final int JSONSource=0x7f090004;
         public static final int _0=0x7f090005;
         public static final int _1=0x7f090006;
-        public static final int action_settings=0x7f09000c;
         public static final int back=0x7f090002;
-        public static final int changeLogButton=0x7f09000b;
-        public static final int forcastButton=0x7f090009;
+        public static final int change=0x7f09000f;
+        public static final int finished=0x7f09000b;
+        public static final int forecastButton=0x7f090009;
         public static final int forecast_fragment=0x7f090000;
         public static final int imagePLZ=0x7f090001;
+        public static final int load_home=0x7f09000e;
         public static final int saveZip=0x7f090003;
-        public static final int savedButton=0x7f09000a;
+        public static final int temp=0x7f09000c;
         public static final int weather_fragment_thing=0x7f090007;
+        public static final int widgetIconButton=0x7f09000d;
+        public static final int widgetZip=0x7f09000a;
         public static final int zipText=0x7f090008;
     }
     public static final class layout {
@@ -43,9 +46,11 @@ public final class R {
         public static final int forecast_layout=0x7f030001;
         public static final int weather_fragment=0x7f030002;
         public static final int weather_layout=0x7f030003;
+        public static final int widget_config_layout=0x7f030004;
+        public static final int widget_layout=0x7f030005;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int main_menu=0x7f080000;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
@@ -53,12 +58,15 @@ public final class R {
         public static final int back=0x7f060004;
         public static final int change_log=0x7f06000c;
         public static final int changelog_close=0x7f06000e;
+        public static final int click_the_icon_to_view_a_new_forecast=0x7f06000f;
         public static final int enter_zip_code=0x7f060007;
+        public static final int finished=0x7f060010;
         public static final int forecast_title=0x7f060002;
         public static final int home_forecast=0x7f06000a;
         public static final int logo=0x7f06000b;
         public static final int new_forecast=0x7f060009;
         public static final int save_home_zip=0x7f060005;
+        public static final int temp=0x7f060011;
         public static final int title_changelog=0x7f06000d;
         public static final int view_json=0x7f060006;
         public static final int wiseweather_forecast=0x7f060008;
@@ -77,12 +85,15 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070003;
-        public static final int AppTheme=0x7f070000;
-        public static final int Forecast=0x7f070001;
-        public static final int Title=0x7f070002;
+        public static final int AppBaseTheme=0x7f070002;
+        /**  Application theme. 
+         */
+        public static final int AppTheme=0x7f070003;
+        public static final int Forecast=0x7f070000;
+        public static final int Title=0x7f070001;
     }
     public static final class xml {
         public static final int changelog=0x7f040000;
+        public static final int widget=0x7f040001;
     }
 }
