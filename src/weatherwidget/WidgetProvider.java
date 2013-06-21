@@ -17,8 +17,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
-	public String theStuff;
-	
+	public String theStuff = new String();
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		String zip = RequestService.readFile(context, "zip", false);
@@ -28,11 +27,12 @@ public class WidgetProvider extends AppWidgetProvider {
 				getTimeline gtl = new getTimeline();
 				gtl.execute(url);
 				
+				Log.e("STUFF", theStuff);
 				RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 				rv.setTextViewText(R.id.temp, theStuff);
 				appWidgetManager.updateAppWidget(appWidgetIds, rv);
 			} catch(Exception e) {
-				Log.e("URL IS MESSED UP!", "getResponse");
+				Log.e("UPDATE", "Error updating!");
 			}
 		} else {
 			Log.i("ERROR", "There was an issue updating.");
@@ -57,7 +57,6 @@ public class WidgetProvider extends AppWidgetProvider {
 				JSONObject first = results.getJSONObject(0);
 				String forecast = first.getString("fcttext");
 				theStuff = forecast;
-				Log.i("STUFF", theStuff);
 			} catch(Exception e) {
 				Log.e("JSON ERROR", "Your JSON is incorrect!");
 			}
