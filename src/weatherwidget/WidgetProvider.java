@@ -17,20 +17,23 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
-	public String theStuff = new String();
+	public String theStuff = "DEFAULT";
+	public Context con;
+	public AppWidgetManager awm;
+	public int[] awid;
+	
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		String zip = RequestService.readFile(context, "zip", false);
 		if (zip != null) {
 			try{
+				con = context;
+				awm = appWidgetManager;
+				awid = appWidgetIds;
+				
 				URL url = new URL("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zip + ".json");
 				getTimeline gtl = new getTimeline();
 				gtl.execute(url);
-				
-				Log.e("STUFF", theStuff);
-				RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-				rv.setTextViewText(R.id.temp, theStuff);
-				appWidgetManager.updateAppWidget(appWidgetIds, rv);
 			} catch(Exception e) {
 				Log.e("UPDATE", "Error updating!");
 			}
@@ -56,7 +59,9 @@ public class WidgetProvider extends AppWidgetProvider {
 				JSONArray results = resultJSON.getJSONObject("forecast").getJSONObject("txt_forecast").getJSONArray("forecastday");
 				JSONObject first = results.getJSONObject(0);
 				String forecast = first.getString("fcttext");
-				theStuff = forecast;
+				RemoteViews rv = new RemoteViews(con.getPackageName(), R.layout.widget_layout);
+				rv.setTextViewText(R.id.temp, forecast);
+				awm.updateAppWidget(awid, rv);
 			} catch(Exception e) {
 				Log.e("JSON ERROR", "Your JSON is incorrect!");
 			}
