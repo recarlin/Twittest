@@ -6,7 +6,7 @@
  */
 package com.recarlin.wiseweather;
 
-import com.inscription.ChangeLogDialog;
+import inscription.ChangeLogDialog;
 
 import forecastBuilder.ConnectionCheck;
 import forecastBuilder.RequestService;

@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+
         <Button
             android:id="@+id/back"
             android:layout_width="0dp"
@@ -21,7 +22,8 @@
             android:layout_weight=".80"
             android:text="@string/back"
             android:textSize="12sp"
-            tools:ignore="ButtonStyle"/>
+            tools:ignore="ButtonStyle,ButtonStyle" />
+
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"

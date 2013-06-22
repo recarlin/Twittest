@@ -1,3 +1,9 @@
+/*
+ * project		WiseWeather
+ * package		weatherwidget
+ * author		Russell Carlin
+ * date			Jun 19, 2013
+ */
 package weatherwidget;
 
 import java.net.URL;
@@ -21,7 +27,7 @@ public class WidgetProvider extends AppWidgetProvider {
 	public Context con;
 	public AppWidgetManager awm;
 	public int[] awid;
-	
+//This will update the widget when it is created or every 30 minutes.
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		String zip = RequestService.readFile(context, "zip", false);
