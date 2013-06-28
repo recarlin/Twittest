@@ -30,7 +30,7 @@ public class WidgetProvider extends AppWidgetProvider {
 //This will update the widget when it is created or every 30 minutes.
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		String zip = RequestService.readFile(context, "zip", false);
+		String zip = RequestService.readFile(context, "configZip", false);
 		if (zip != null) {
 			try{
 				con = context;

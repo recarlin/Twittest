@@ -42,6 +42,7 @@ public class WidgetConfig extends Activity{
 				try {
 					String zip = ((EditText)findViewById(R.id.widgetZip)).getText().toString();
 					URL url = new URL("http://api.wunderground.com/api/137996d2b3a91dcf/forecast/q/" + zip + ".json");
+					RequestService.storeFile(getApplicationContext(), "configZip", zip, false);
 					getTimeline gtl = new getTimeline();
 					gtl.execute(url);
 				} catch (MalformedURLException e) {
