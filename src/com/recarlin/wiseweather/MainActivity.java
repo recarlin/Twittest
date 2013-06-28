@@ -68,7 +68,6 @@ public class MainActivity extends FragmentActivity{
 	    WebAppInterface(Context c) {
 	        _Context = c;
 	    }
-
 	    @JavascriptInterface
 	    public void getNew(String zip) {
 	        newGet(zip);
