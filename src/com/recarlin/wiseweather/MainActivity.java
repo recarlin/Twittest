@@ -11,6 +11,7 @@ import inscription.ChangeLogDialog;
 import forecastBuilder.ConnectionCheck;
 import forecastBuilder.RequestService;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,9 +19,12 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
-public class MainActivity extends FragmentActivity implements WeatherFragment.checker{
+@SuppressLint("SetJavaScriptEnabled")
+public class MainActivity extends FragmentActivity{
 	private static Context _context;
 	Boolean connected = false;
 //Sets the layout fragment and also sets the _context up for use.
@@ -38,9 +42,6 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 	        	ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(this);
 				_ChangelogDialog.show();
 				break;
-	        case (R.id.load_home): 
-	        	homeGet();
-	        	break;
 	        default:
 	    }
 	    return super.onOptionsItemSelected(item);
@@ -49,37 +50,34 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MainActivity._context = getApplicationContext();
-		setContentView(R.layout.weather_fragment);
-//Tries to grab the intent and send another intent to get a forecast, using the zip sent from where ever.
-//		if (getIntent() != null){
-//			try {
-//				Intent intent = getIntent();
-//				Bundle stuffs = intent.getExtras();
-//				String zip = stuffs.getString("zip");
-//				connected = ConnectionCheck.getConnected(this);
-//				if(connected) {
-//					Intent forecastView = new Intent(_context, ForecastView.class);
-//					forecastView.putExtra("zip", zip);
-//					startActivityForResult(forecastView, 0);
-//				} else {
-//					AlertDialog alert = new AlertDialog.Builder(this).create();
-//					alert.setTitle("Error");
-//					alert.setMessage("You are not connected!");
-//					alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-//						public void onClick(final DialogInterface dialog, final int which) {
-//						}
-//					});
-//					alert.show();
-//				}
-//			} catch(Exception e){
-//				Log.e("INTENT", "You did it wrong, Russell");
-//			}
-//		}
+		setContentView(R.layout.weather_layout);
+		
+		WebView wv = (WebView) findViewById(R.id.webview);
+		wv.loadUrl("file:///android_asset/WiseWeatherWebView/ForecastZip.html");
+		wv.addJavascriptInterface(new WebAppInterface(this), "doIt");
+		WebSettings ws = wv.getSettings();
+		ws.setJavaScriptEnabled(true);
 	}
 //This is used to get the context in other classes that are not extensions of Activity.
 	public static Context getAppContext() {
         return MainActivity._context;
     }
+	
+	public class WebAppInterface {
+	    Context _Context;
+	    WebAppInterface(Context c) {
+	        _Context = c;
+	    }
+
+	    @JavascriptInterface
+	    public void getNew(String zip) {
+	        newGet(zip);
+	    }
+	    @JavascriptInterface
+	    public void getHome() {
+	        homeGet();
+	    }
+	}
 //This is the result of the closing the forecast view and getting the intent data.
 //It will save the zip to the filesystem if you pressed to do so, or it will just return to the main screen.
 	@Override
@@ -94,14 +92,12 @@ public class MainActivity extends FragmentActivity implements WeatherFragment.ch
 		}
 	}
 //Functionality for the new forecast button. It uses the user inputed zip to do a normal call.
-	@Override
-	public void onForecastGet() {
+	public void newGet(String zip) {
 		connected = ConnectionCheck.getConnected(this);
 		if(connected) {
-			String typedZip = ((EditText)findViewById(R.id.zipText)).getText().toString();
-			if (typedZip.length() < 6 && typedZip.length() > 4) {
+			if (zip.length() < 6 && zip.length() > 4) {
 				Intent forecastView = new Intent(_context, ForecastView.class);
-				forecastView.putExtra("zip", typedZip);
+				forecastView.putExtra("zip", zip);
 				startActivityForResult(forecastView, 0);
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(this).create();

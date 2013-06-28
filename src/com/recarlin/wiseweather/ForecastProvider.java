@@ -107,7 +107,7 @@ public class ForecastProvider extends ContentProvider {
 			try {
 				index = Integer.parseInt(itemId);
 			} catch (NumberFormatException e) {
-				Log.e("query", "index format error");
+				
 				break;
 			}
 			if(index <= 0 || index > forecastDayArray.length()) {
