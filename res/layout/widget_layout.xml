@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_orange_light"
     android:orientation="horizontal"
-    tools:ignore="SelectableText" >
+    tools:ignore="SelectableText">
 
     <TextView
         android:id="@+id/temp"

@@ -131,7 +131,7 @@ public class RequestService extends IntentService{
 	@SuppressWarnings("resource")
 	public static Boolean storeFile(Context context, String filename, String content, Boolean external) {
 		try{
-			File file = new File("zip");
+			File file = new File(filename);
 			file.delete();
 		} catch(Exception e) {
 			Log.e("FILE", "No zip file, continue with file creation!");

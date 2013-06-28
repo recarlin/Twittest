@@ -20,5 +20,8 @@
     <string name="click_the_icon_to_view_a_new_forecast">Click the icon to view a new forecast</string>
     <string name="finished">Finished</string>
     <string name="temp">TEMP</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="widgettext">Click the icon to set the widget zip code</string>
+    <string name="wiseweather_widget">WiseWeather Widget</string>
 
 </resources>

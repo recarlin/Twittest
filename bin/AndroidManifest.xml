@@ -37,6 +37,12 @@
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/widget"/>
 		</receiver>
+		<activity
+            android:name="weatherwidget.WidgetConfig">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
         <service
             android:enabled="true"
             android:name="forecastBuilder.RequestService">
